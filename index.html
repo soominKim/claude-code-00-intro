@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude 생태계, 알고 보면 단순합니다</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+KR:wght@400;500;700&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF9F7;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A4A;
+    --ink-muted: #8A8A8A;
+    --accent: #CC785C;
+    --line: #E8E4DC;
+    --card: #FFFFFF;
+    --highlight: #F5F0E8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 32px;
+    background: rgba(250, 249, 247, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  nav .brand {
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+
+  nav .brand span {
+    color: var(--accent);
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+  }
+
+  nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--accent); }
+
+  /* Hero */
+  .hero {
+    padding: 180px 0 120px;
+    text-align: left;
+  }
+
+  .hero .eyebrow {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    padding: 6px 14px;
+    background: var(--highlight);
+    border-radius: 20px;
+  }
+
+  .hero h1 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(36px, 6vw, 60px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    color: var(--ink);
+  }
+
+  .hero .lede {
+    font-size: 19px;
+    color: var(--ink-soft);
+    max-width: 580px;
+    line-height: 1.75;
+    border-left: 3px solid var(--accent);
+    padding-left: 20px;
+  }
+
+  /* Section */
+  section {
+    padding: 80px 0;
+  }
+
+  .section-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  h2 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+
+  p.intro {
+    font-size: 17px;
+    margin-bottom: 24px;
+  }
+
+  strong { color: var(--ink); font-weight: 600; }
+
+  /* Big picture list */
+  .big-list {
+    list-style: none;
+    margin-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+
+  .big-list li {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 20px;
+    align-items: baseline;
+    font-size: 16px;
+    color: var(--ink-soft);
+  }
+
+  .big-list .num {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+    min-width: 32px;
+    letter-spacing: 0.05em;
+  }
+
+  .big-list b {
+    color: var(--ink);
+    font-weight: 600;
+    margin-right: 6px;
+  }
+
+  .plugin-note {
+    margin-top: 36px;
+    padding: 24px 28px;
+    background: var(--highlight);
+    border-radius: 4px;
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.75;
+  }
+
+  /* Concept items */
+  .concept {
+    padding: 44px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .concept:last-child { border-bottom: none; }
+
+  .concept-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+
+  .concept-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--highlight);
+    padding: 4px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+  }
+
+  .concept-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+
+  .concept-desc {
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-top: 16px;
+    margin-bottom: 24px;
+  }
+
+  .detail {
+    margin-top: 12px;
+    padding-left: 20px;
+    border-left: 2px solid var(--line);
+  }
+
+  .detail-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .detail p {
+    font-size: 15px;
+    margin-bottom: 0;
+    line-height: 1.7;
+  }
+
+  .detail + .detail { margin-top: 16px; }
+
+  .detail.example { border-color: var(--accent); }
+
+  /* Product lineup */
+  .product {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .product:last-child { border-bottom: none; }
+
+  .product h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .product .tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink-muted);
+    letter-spacing: 0.01em;
+  }
+
+  /* In Practice section */
+  .practice-sub {
+    margin-top: 48px;
+  }
+
+  .practice-sub:first-of-type { margin-top: 32px; }
+
+  .practice-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .practice-sub h3 {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .practice-sub > p {
+    margin-bottom: 24px;
+  }
+
+  .code-block {
+    background: #1A1A1A;
+    color: #F5F0E8;
+    padding: 20px 24px;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+    font-size: 13.5px;
+    line-height: 1.85;
+    overflow-x: auto;
+    margin: 20px 0;
+    white-space: pre;
+  }
+
+  .code-block .cmd { color: #F5F0E8; }
+  .code-block .prompt { color: #CC785C; font-weight: 600; margin-right: 8px; }
+  .code-block .comment { color: #8A8A8A; font-style: italic; }
+
+  .prompt-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    padding: 18px 22px;
+    margin: 14px 0;
+    border-radius: 2px;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink);
+  }
+
+  .prompt-card .prompt-lang {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .prompt-card.en {
+    border-left-color: var(--ink-muted);
+    background: var(--highlight);
+    color: var(--ink-soft);
+  }
+
+  .tree {
+    background: var(--highlight);
+    padding: 20px 24px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--ink);
+    margin: 20px 0;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  .tree .accent-text { color: var(--accent); font-weight: 600; }
+
+  .callout {
+    background: var(--highlight);
+    padding: 20px 24px;
+    border-radius: 4px;
+    margin: 20px 0;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+  }
+
+  .callout strong { color: var(--ink); }
+
+  /* Footer */
+  footer {
+    padding: 80px 0 100px;
+    border-top: 1px solid var(--line);
+    margin-top: 60px;
+  }
+
+  footer .foot-line {
+    font-size: 14px;
+    color: var(--ink-muted);
+    text-align: center;
+  }
+
+  footer .foot-line span {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--line);
+    margin: 0;
+    border: none;
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    nav ul { gap: 16px; }
+    nav a { font-size: 13px; }
+    .container { padding: 0 24px; }
+    .hero { padding: 140px 0 80px; }
+    section { padding: 60px 0; }
+    .concept-header { gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">Claude <span>생태계</span></div>
+  <ul>
+    <li><a href="#overview">큰 그림</a></li>
+    <li><a href="#concepts">비유로</a></li>
+    <li><a href="#practice">실전</a></li>
+    <li><a href="#products">제품</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <span class="eyebrow">Ecosystem Guide</span>
+    <h1>Claude 생태계,<br>알고 보면 단순합니다</h1>
+    <p class="lede">Skill? Agent? MCP? — 처음 보면 어려운 단어들이 많지만, 쉬운 비유로 이해할 수 있어요. 한 번 읽어두면 어떤 걸 언제 써야 할지 감이 잡힙니다.</p>
+  </div>
+</header>
+
+<section id="overview">
+  <div class="container">
+    <span class="section-num">01 — OVERVIEW</span>
+    <h2>큰 그림부터</h2>
+    <p class="intro">Claude는 사람으로 비유하면 엄청 똑똑한 비서입니다. 하지만 혼자서는 당신의 Notion, Figma, 엑셀 파일을 보지도 못하고, 자주 쓰는 당신만의 루틴을 기억하지도 못합니다.</p>
+    <p class="intro">그래서 필요한 게 <strong>확장 요소들</strong>입니다.</p>
+
+    <ul class="big-list">
+      <li><span class="num">01</span><span>내 파일을 다룰 수 있게 해주는 <b>스킬(Skills)</b></span></li>
+      <li><span class="num">02</span><span>특정 분야에 능한 <b>에이전트(Subagents)</b></span></li>
+      <li><span class="num">03</span><span>외부 도구로 들어가는 열쇠인 <b>MCP</b></span></li>
+      <li><span class="num">04</span><span>반복 요청을 줄여주는 <b>슬래시 커맨드(Slash Commands)</b></span></li>
+      <li><span class="num">05</span><span>대화창에서 실행되는 <b>앱(Apps)</b></span></li>
+      <li><span class="num">06</span><span>특정 순간에 자동 작동하는 <b>훅(Hooks)</b></span></li>
+    </ul>
+
+    <div class="plugin-note">
+      그리고 이것들을 한 번에 묶어 배포하는 <strong>플러그인(Plugins)</strong>도 있습니다. 이 사이트는 그 모든 확장 요소를 쇼핑하듯 골라 담아 설치할 수 있게 만들어졌습니다.
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="concepts">
+  <div class="container">
+    <span class="section-num">02 — CONCEPTS</span>
+    <h2>하나씩 비유로</h2>
+
+    <div class="concept">
+      <div class="concept-header">
+        <span class="concept-tag">01</span>
+        <h3><span class="concept-name">Skills</span></h3>
+      </div>
+      <p class="concept-desc">필요할 때만 꺼내 쓰는 전문 과외 선생</p>
+      <p>평소엔 숨어 있다가 특정 파일이나 요청이 들어오면 자동으로 깨어나 도와주는 전문 지식 묶음. 엑셀 파일이 들어오면 '엑셀 선생님'이, PDF가 들어오면 'PDF 선생님'이 들어옵니다.</p>
+      <div class="detail example">
+        <span class="detail-label">예시</span>
+        <p>가계부 엑셀을 첨부하고 '이번 달 지출 정리해줘'라고 부탁하면, XLSX 스킬이 자동으로 깨어나 시트를 읽고 계산합니다.</p>
+      </div>
+      <div class="detail">
+        <span class="detail-label">비유로 다시</span>
+        <p>학교에서 수학 시간엔 수학 선생님이, 영어 시간엔 영어 선생님이 들어오는 것처럼, Claude도 상황에 맞는 스킬이 자동으로 들어와 가르쳐 줍니다.</p>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-header">
+        <span class="concept-tag">02</span>
+        <h3><span class="concept-name">Subagents</span></h3>
+      </div>
+      <p class="concept-desc">같은 팀의 전문 동료</p>
+      <p>Claude 혼자 다 하지 않고, 어떤 종류의 일은 그 분야에 최적화된 '동료'에게 맡깁니다. 탐색 담당, 계획 담당, 리뷰 담당 같이 역할이 나뉘어 있어요.</p>
+      <div class="detail example">
+        <span class="detail-label">예시</span>
+        <p>'이 프로젝트의 인증 관련 파일 전부 찾아줘'라고 부탁하면, Claude가 Explore 동료에게 일을 넘겨 뒤에서 뒤지게 합니다. 대화창엔 결과만 돌아옵니다.</p>
+      </div>
+      <div class="detail">
+        <span class="detail-label">비유로 다시</span>
+        <p>프로젝트 매니저가 혼자 다 하지 않고 디자이너·개발자·QA에게 맡기듯, Claude도 상황에 맞는 에이전트에게 일을 넘깁니다.</p>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-header">
+        <span class="concept-tag">03</span>
+        <h3><span class="concept-name">Plugins</span></h3>
+      </div>
+      <p class="concept-desc">관련된 것들을 한 박스에 넣은 선물 세트</p>
+      <p>서로 관련된 스킬·에이전트·단축키·자동화를 하나의 박스로 묶어 배포하는 패키지. 개별로 설치하는 대신 박스 하나로 여러 기능을 갖춥니다.</p>
+      <div class="detail example">
+        <span class="detail-label">예시</span>
+        <p>'오피스 작업 세트' 플러그인을 설치하면 엑셀·워드·PPT·PDF 스킬이 한꺼번에 활성화됩니다.</p>
+      </div>
+      <div class="detail">
+        <span class="detail-label">비유로 다시</span>
+        <p>이사 갈 때 식기 낱개로 사는 대신 '6인 세트' 한 박스로 사는 것과 비슷합니다.</p>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-header">
+        <span class="concept-tag">04</span>
+        <h3><span class="concept-name">MCP Servers</span></h3>
+      </div>
+      <p class="concept-desc">외부 서비스로 들어가는 열쇠 꾸러미</p>
+      <p>Claude가 Notion·Figma·GitHub·구글 드라이브 같은 외부 서비스를 '직접 보고 다룰 수 있게' 해 주는 열쇠. 열쇠가 없으면 Claude는 바깥 세상을 볼 수 없습니다.</p>
+      <div class="detail example">
+        <span class="detail-label">예시</span>
+        <p>Notion MCP를 연결하면 '지난 주 회의록에서 할 일 목록 뽑아줘'라고 부탁할 수 있게 됩니다.</p>
+      </div>
+      <div class="detail">
+        <span class="detail-label">비유로 다시</span>
+        <p>집에 들어가려면 열쇠가 있어야 하듯, Claude가 내 Notion 워크스페이스에 들어가려면 MCP 열쇠가 필요합니다.</p>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-header">
+        <span class="concept-tag">05</span>
+        <h3><span class="concept-name">Slash Commands</span></h3>
+      </div>
+      <p class="concept-desc">자주 쓰는 긴 요청을 한 줄로 줄인 단축키</p>
+      <p>매번 같은 긴 설명을 하지 않고 <code>/리뷰</code>, <code>/초기화</code> 한 줄로 정해진 작업을 호출하는 명령어. 스킬의 가벼운 버전이라고 보면 됩니다.</p>
+      <div class="detail example">
+        <span class="detail-label">예시</span>
+        <p><code>/review</code>라고 치면, Claude가 현재 변경사항 전체를 리뷰해 코멘트를 달아 줍니다.</p>
+      </div>
+      <div class="detail">
+        <span class="detail-label">비유로 다시</span>
+        <p>키보드의 Ctrl+C, Ctrl+V처럼 Claude의 단축키. 몇 글자 외워두면 반복 업무가 반으로 줄어요.</p>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-header">
+        <span class="concept-tag">06</span>
+        <h3><span class="concept-name">Apps</span></h3>
+      </div>
+      <p class="concept-desc">Claude 안에서 돌아가는 작은 앱</p>
+      <p>Claude.ai 대화창 안에서 바로 실행되는 미니 프로그램. 브라우저 탭을 오가지 않고 그 자리에서 디자인을 그리거나 문서를 편집할 수 있게 해 줍니다.</p>
+      <div class="detail example">
+        <span class="detail-label">예시</span>
+        <p>Claude Design 앱에서 '회사 소개 원페이저 만들어줘'라고 부탁하면 바로 디자인된 결과물이 나옵니다.</p>
+      </div>
+      <div class="detail">
+        <span class="detail-label">비유로 다시</span>
+        <p>카카오톡 안에 있는 '미니 앱'처럼, Claude 대화 안에 있는 작은 앱들입니다.</p>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-header">
+        <span class="concept-tag">07</span>
+        <h3><span class="concept-name">Hooks</span></h3>
+      </div>
+      <p class="concept-desc">특정 순간에 자동으로 반응하는 센서</p>
+      <p>'이런 일이 벌어지면 이걸 자동으로 해라'를 미리 걸어두는 자동 반응 규칙. 파일을 고친 직후 포맷팅을 자동 실행하거나, 위험한 명령을 막을 수 있습니다.</p>
+      <div class="detail example">
+        <span class="detail-label">예시</span>
+        <p>'파일 수정 후 자동 포맷팅' 훅을 걸어두면, Claude가 코드를 고치자마자 prettier가 자동으로 돌아가 스타일을 정리합니다.</p>
+      </div>
+      <div class="detail">
+        <span class="detail-label">비유로 다시</span>
+        <p>동작 감지 센서가 달린 자동문 같아요. 무언가 지나가면 자동으로 열리듯, 특정 이벤트가 생기면 정해둔 동작이 바로 실행됩니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="practice">
+  <div class="container">
+    <span class="section-num">03 — IN PRACTICE</span>
+    <h2>실전 예시 · 바로 써보기</h2>
+    <p class="intro">이론은 이 정도면 충분합니다. 실제로 어떻게 설치하고, 어떤 식으로 요청하면 되는지 <strong>가장 먼저 해야 할 한 가지</strong>부터 자주 쓰이는 <strong>Skills</strong>·<strong>MCP</strong> 순으로 보여드릴게요.</p>
+
+    <div class="practice-sub">
+      <span class="practice-label">가장 먼저 · 필수</span>
+      <h3>CLAUDE.md — 프로젝트 규칙 적어두기</h3>
+      <p>Claude Code 공식 문서가 초보자에게 가장 먼저 권하는 것. 프로젝트 루트에 <code>CLAUDE.md</code> 파일 하나 만들어 두면, <strong>모든 세션이 시작될 때 자동으로 읽힙니다.</strong> "항상 이렇게 해라" 류의 규칙을 여기 적어두세요.</p>
+
+      <div class="code-block"><span class="comment"># 프로젝트 루트에 CLAUDE.md 생성 — Claude Code에서</span>
+<span class="cmd">/init</span>
+<span class="comment"># 코드베이스를 훑어보고 CLAUDE.md 초안을 자동 작성합니다</span></div>
+
+      <div class="callout">
+        <strong>초보자 팁 · 200줄 넘기지 말 것</strong><br>
+        CLAUDE.md는 짧고 핵심만. 길어지면 Claude가 오히려 규칙을 놓쳐요. 상세한 참고 자료는 Skill로 분리하는 게 낫습니다.
+      </div>
+    </div>
+
+    <div class="practice-sub">
+      <span class="practice-label">Skills · 권장</span>
+      <h3>document-skills 플러그인 설치</h3>
+      <p>PDF · DOCX · XLSX · PPTX 네 개의 스킬이 한 번에 들어오는 공식 플러그인. 문서 다루는 일이 조금이라도 있다면 이것부터 깔아두세요.</p>
+
+      <div class="callout">
+        <strong>설치 없이 바로 쓸 수 있는 기본 스킬</strong><br>
+        Claude Code엔 <code>/simplify</code>(코드 단순화) · <code>/batch</code>(반복 작업 일괄 처리) · <code>/debug</code>(디버깅 도우미) 같은 <strong>번들 스킬</strong>이 이미 깔려 있습니다. 따로 설치 안 해도 바로 <code>/</code>로 호출 가능.
+      </div>
+
+      <div class="code-block"><span class="comment"># Claude Code에서 순서대로 실행</span>
+<span class="cmd">/plugin marketplace add https://github.com/anthropics/skills</span>
+<span class="cmd">/plugin install document-skills@anthropic-agent-skills</span>
+<span class="cmd">/plugin list</span></div>
+
+      <div class="tree">마켓플레이스 (anthropic-agent-skills)
+  └─ 플러그인 (<span class="accent-text">document-skills</span>)   ← 설치 단위
+       ├─ 스킬: pdf
+       ├─ 스킬: docx
+       ├─ 스킬: xlsx
+       └─ 스킬: pptx</div>
+
+      <div class="callout">
+        <strong>구조 이해하기</strong><br>
+        마켓플레이스는 '앱스토어', 플러그인은 '앱 묶음', 스킬은 '앱 안의 기능' — 플러그인 하나만 깔면 스킬 네 개가 한꺼번에 활성화됩니다.
+      </div>
+    </div>
+
+    <div class="practice-sub">
+      <span class="practice-label">PDF Skill · 프롬프트 예시</span>
+      <h3>이런 식으로 부탁하면 됩니다</h3>
+      <p>스킬은 따로 호출하지 않아도 자동으로 깨어납니다. PDF를 첨부하고 자연어로 요청만 하면 돼요.</p>
+
+      <div class="prompt-card">
+        <span class="prompt-lang">KO · 이미지 추출</span>
+        이 제안서 PDF에서 아키텍처 다이어그램이랑 화면 목업 이미지들 전부 추출해서 별도 폴더에 저장해줘. 파일명은 페이지+설명으로.
+      </div>
+
+      <div class="prompt-card en">
+        <span class="prompt-lang">EN · Same request</span>
+        Use the PDF skill to extract all architecture diagrams and UI mockups from this proposal PDF. Save to a separate folder with filenames as page_number + description.
+      </div>
+
+      <div class="prompt-card">
+        <span class="prompt-lang">KO · 여러 PDF 병합</span>
+        ~/Documents/CHI2026 폴더에 있는 논문 PDF 8개를 저자 알파벳순으로 정렬해서 하나로 합쳐줘. 목차 페이지도 앞에 만들어주고.
+      </div>
+
+      <div class="prompt-card">
+        <span class="prompt-lang">KO · 챕터별 분할</span>
+        이 200페이지짜리 PDF를 챕터별로 나눠서 별도 파일로 만들어줘.
+      </div>
+
+      <div class="prompt-card">
+        <span class="prompt-lang">KO · 표 추출 → 엑셀</span>
+        이 PDF 23–27페이지에 있는 비용 산출표들 다 뽑아서 하나의 엑셀 파일로 합쳐줘. 시트는 페이지별로 나눠서.
+      </div>
+    </div>
+
+    <div class="practice-sub">
+      <span class="practice-label">MCP · 권장</span>
+      <h3>Claude.ai의 Connectors 활용</h3>
+      <p>Claude Code에서 MCP 서버를 직접 설정하는 것도 가능하지만, 가장 쉬운 시작은 <strong>Claude.ai의 Connectors</strong> 메뉴입니다. Notion · Gmail · Google Calendar · Google Drive · Slack · Figma · Notion · Microsoft Learn 같은 자주 쓰는 서비스가 클릭 몇 번으로 연결돼요.</p>
+
+      <div class="callout">
+        <strong>연결해 두면 좋은 것들</strong><br>
+        · <strong>Notion</strong> — 회의록·프로젝트 위키에서 정보 찾고 업데이트<br>
+        · <strong>Gmail · Calendar</strong> — 메일 초안 작성, 일정 잡기<br>
+        · <strong>Google Drive</strong> — Drive 안 문서 검색·요약<br>
+        · <strong>Figma</strong> — 디자인 파일에서 스펙·스크린샷 가져오기<br>
+        · <strong>Slack</strong> — 채널 검색, 메시지 초안·예약 발송
+      </div>
+
+      <div class="prompt-card">
+        <span class="prompt-lang">예시 · Notion Connector</span>
+        지난주 팀 회의록에서 내 이름이 들어간 할 일 전부 뽑아서 우선순위별로 정리해줘.
+      </div>
+
+      <div class="prompt-card">
+        <span class="prompt-lang">예시 · Figma Connector</span>
+        이 Figma 링크의 화면을 그대로 구현할 React 컴포넌트 코드 초안 작성해줘.
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="products">
+  <div class="container">
+    <span class="section-num">04 — PRODUCTS</span>
+    <h2>Claude 제품 라인업</h2>
+    <p class="intro">Anthropic은 용도에 따라 여러 형태의 Claude를 만듭니다. 이 사이트에서 담는 기능은 대부분 <strong>Claude Code</strong>와 <strong>Claude.ai</strong> 두 군데에 설치됩니다. 나머지는 제품 자체가 하나의 카탈로그 아이템이에요.</p>
+
+    <div class="product">
+      <h3>Claude.ai <span class="tagline">웹 · 데스크탑 · 모바일</span></h3>
+      <p>가장 흔하게 만나는 Claude. 브라우저의 claude.ai, 맥·윈도우 데스크탑 앱, iOS·안드로이드 모바일 앱이 모두 같은 계정으로 연결돼 한 대화를 이어 갑니다.</p>
+    </div>
+
+    <div class="product">
+      <h3>Claude Code <span class="tagline">CLI · 데스크탑 · IDE 확장</span></h3>
+      <p>개발자를 위한 Claude. 터미널(CLI)이 가장 강력하고, 별도 데스크탑 앱과 VS Code·JetBrains 확장도 있습니다. Skills·MCP·Hooks 같은 고급 확장이 전부 가능합니다.</p>
+    </div>
+
+    <div class="product">
+      <h3>Claude Cowork <span class="tagline">별개 데스크탑 앱</span></h3>
+      <p>Claude Code의 비개발자 버전. 에이전트가 내 컴퓨터의 파일·이메일·엑셀 같은 앱을 자동으로 오가며 일을 끝내 줍니다.</p>
+    </div>
+
+    <div class="product">
+      <h3>Claude Design <span class="tagline">비주얼 제작 앱</span></h3>
+      <p>프로토타입·슬라이드·원페이저·목업을 말로만 시켜 만드는 Anthropic Labs의 신작.</p>
+    </div>
+
+    <div class="product">
+      <h3>Claude API · Agent SDK</h3>
+      <p>Claude를 자기 서비스에 붙이고 싶을 때 쓰는 프로그래밍 인터페이스. 이 사이트의 주 대상은 아니지만, 개발자라면 이쪽으로도 거의 모든 기능을 연결할 수 있습니다.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p class="foot-line">Claude <span>생태계</span> 안내 · 쉽게 시작해 보세요</p>
+  </div>
+</footer>
+
+</body>
+</html>
