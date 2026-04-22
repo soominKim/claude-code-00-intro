@@ -82,39 +82,6 @@
 
   nav a:hover { color: var(--accent); }
 
-  nav .cta {
-    background: var(--ink);
-    color: var(--bg);
-    padding: 9px 16px;
-    border-radius: 100px;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-    transition: background 0.2s, transform 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  nav .cta:hover {
-    background: var(--accent);
-    color: #FFFFFF;
-    transform: translateY(-1px);
-  }
-
-  nav .cta .arrow {
-    font-size: 15px;
-    transition: transform 0.2s;
-  }
-
-  nav .cta:hover .arrow { transform: translate(2px, -2px); }
-
-  nav .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-
   /* Hero */
   .hero {
     padding: 180px 0 120px;
@@ -152,6 +119,37 @@
     border-left: 3px solid var(--accent);
     padding-left: 20px;
   }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 40px;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 16px 28px;
+    border-radius: 100px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: -0.005em;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  }
+
+  .hero-cta:hover {
+    background: var(--accent);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(204,120,92,0.25);
+  }
+
+  .hero-cta .arrow {
+    font-size: 17px;
+    transition: transform 0.2s;
+  }
+
+  .hero-cta:hover .arrow { transform: translate(3px, -3px); }
 
   /* Section */
   section {
@@ -455,15 +453,15 @@
     border: none;
   }
 
-  @media (max-width: 760px) {
-    nav { padding: 14px 20px; }
-    nav ul { display: none; }
-    nav .nav-right { gap: 0; }
-    nav .cta { font-size: 12px; padding: 8px 14px; }
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    nav ul { gap: 16px; }
+    nav a { font-size: 13px; }
     .container { padding: 0 24px; }
     .hero { padding: 140px 0 80px; }
     section { padding: 60px 0; }
     .concept-header { gap: 10px; }
+    .hero-cta { padding: 14px 22px; font-size: 14px; margin-top: 32px; }
   }
 </style>
 </head>
@@ -471,15 +469,12 @@
 
 <nav>
   <div class="brand">Claude <span>생태계</span></div>
-  <div class="nav-right">
-    <ul>
-      <li><a href="#overview">큰 그림</a></li>
-      <li><a href="#concepts">비유로</a></li>
-      <li><a href="#practice">실전</a></li>
-      <li><a href="#products">제품</a></li>
-    </ul>
-    <a class="cta" href="https://github.com/ai-native-camp/camp-2" target="_blank" rel="noopener">AI Native Camp 실습하기 <span class="arrow">↗</span></a>
-  </div>
+  <ul>
+    <li><a href="#overview">큰 그림</a></li>
+    <li><a href="#concepts">비유로</a></li>
+    <li><a href="#practice">실전</a></li>
+    <li><a href="#products">제품</a></li>
+  </ul>
 </nav>
 
 <header class="hero">
@@ -487,6 +482,7 @@
     <span class="eyebrow">Ecosystem Guide</span>
     <h1>Claude 생태계,<br>알고 보면 단순합니다</h1>
     <p class="lede">Skill? Agent? MCP? — 처음 보면 어려운 단어들이 많지만, 쉬운 비유로 이해할 수 있어요. 한 번 읽어두면 어떤 걸 언제 써야 할지 감이 잡힙니다.</p>
+    <a class="hero-cta" href="https://github.com/ai-native-camp/camp-2" target="_blank" rel="noopener">AI Native Camp 실습하기 <span class="arrow">↗</span></a>
   </div>
 </header>
 
