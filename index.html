@@ -82,6 +82,39 @@
 
   nav a:hover { color: var(--accent); }
 
+  nav .cta {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 9px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  nav .cta:hover {
+    background: var(--accent);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+  }
+
+  nav .cta .arrow {
+    font-size: 15px;
+    transition: transform 0.2s;
+  }
+
+  nav .cta:hover .arrow { transform: translate(2px, -2px); }
+
+  nav .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
   /* Hero */
   .hero {
     padding: 180px 0 120px;
@@ -422,10 +455,11 @@
     border: none;
   }
 
-  @media (max-width: 640px) {
-    nav { padding: 16px 20px; }
-    nav ul { gap: 16px; }
-    nav a { font-size: 13px; }
+  @media (max-width: 760px) {
+    nav { padding: 14px 20px; }
+    nav ul { display: none; }
+    nav .nav-right { gap: 0; }
+    nav .cta { font-size: 12px; padding: 8px 14px; }
     .container { padding: 0 24px; }
     .hero { padding: 140px 0 80px; }
     section { padding: 60px 0; }
@@ -437,12 +471,15 @@
 
 <nav>
   <div class="brand">Claude <span>생태계</span></div>
-  <ul>
-    <li><a href="#overview">큰 그림</a></li>
-    <li><a href="#concepts">비유로</a></li>
-    <li><a href="#practice">실전</a></li>
-    <li><a href="#products">제품</a></li>
-  </ul>
+  <div class="nav-right">
+    <ul>
+      <li><a href="#overview">큰 그림</a></li>
+      <li><a href="#concepts">비유로</a></li>
+      <li><a href="#practice">실전</a></li>
+      <li><a href="#products">제품</a></li>
+    </ul>
+    <a class="cta" href="https://github.com/ai-native-camp/camp-2" target="_blank" rel="noopener">AI Native Camp 실습하기 <span class="arrow">↗</span></a>
+  </div>
 </nav>
 
 <header class="hero">
